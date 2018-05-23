@@ -7,11 +7,11 @@ import java.util.HashMap;
 public class Nn {
 
 	public static void main(String[] args) throws Exception {
-		create();
+		run();
 
 	}
 	
-	public static void create() throws Exception {
+	public static void run() throws Exception {
 		
 		HashMap<double[],double[]> realData = data();
 		
@@ -54,7 +54,6 @@ public class Nn {
 				forward(input,ih,hidden);
 				forward(hidden,ho,output);
 				output = softmax(output);
-//				printArr(output);
 				loss += crossEntropy(output, actual);
 //				System.out.println("loss : " + loss);
 				
@@ -71,12 +70,6 @@ public class Nn {
 						ho[i][j] -= learningRate * hidden[i] * (output[j] - actual[j]);
 					}
 				}
-				
-//				for(int i = 0 ; i < ih.length ; ++i) {
-//					for(int j = 0 ; j < ih[0].length ; ++j) {
-//						ih[i][j] -= learningRate * input[i] * idk(output,actual,ho,j);
-//					}
-//				}
 				
 			}
 			System.out.println("iteration : " + ite + "\t->\tloss:" + loss);
@@ -140,7 +133,7 @@ public class Nn {
 	
 	public static HashMap<double[],double[]> data() throws Exception { 
 	 	HashMap<double[],double[]> data = new HashMap<double[], double[]>(); 
-		BufferedReader br = new BufferedReader(new FileReader("E:\\study\\text\\iris.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("iris.txt"));
 		String line = br.readLine();
 		while(line != null) {
 			String[] elements = line.split(",");
