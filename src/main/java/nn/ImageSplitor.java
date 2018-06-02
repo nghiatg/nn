@@ -9,18 +9,29 @@ import javax.imageio.ImageIO;
 
 public class ImageSplitor {
 	public static void mainOfThis() throws Exception {
-//		BufferedImage img = ImageIO.read(new File("C:\\Users\\kid 4ever\\Desktop\\dkt\\girl.PNG"));
-//		BufferedImage img = ImageIO.read(new File("E:\\study\\img\\entireText\\font1.jpg"));
-//		ArrayList<BufferedImage> imgLines = splitHor(img);
-//		for(int i = 0 ; i < imgLines.size() ; ++i) {
-//			writeImg(imgLines.get(i), "E:\\study\\img\\line\\" + i + ".jpg");
-//		}
+		// split lines
 		BufferedImage img;
+//		File[] entireTextList = new File("E:\\study\\img\\entireText").listFiles();
+//		int count = 0;
+//		for(File f : entireTextList) {
+//			img = ImageIO.read(f);
+//			ArrayList<BufferedImage> imgLines = splitHor(img);
+//			for(BufferedImage oneImg : imgLines) {
+//				writeImg(oneImg, "E:\\study\\img\\line\\" + count + ".jpg");
+//				count++;
+//			}
+//		}
+		
+		System.out.println("Done split lines");
+		
+		//split character
 		ArrayList<BufferedImage> imgChar;
 		File lineFolder = new File("E:\\study\\img\\line");
 		File[] fileList = lineFolder.listFiles();
 		for(int j = 0 ; j < fileList.length ; ++j) {
-			System.out.println(j);
+			if(j % 500 == 0) { 
+				System.out.println(j);
+			}
 			img = ImageIO.read(fileList[j]);
 			imgChar = splitVer(img);
 			for(int i = 0 ; i < imgChar.size() ; ++i) {
@@ -80,7 +91,6 @@ public class ImageSplitor {
 			for (int j = 0; j < width; ++j) {
 				sum += img.getRGB(j, i) & 0xFF;
 			}
-			System.out.println(i + "\t" + sum);
 			grayValues.add(sum);
 		}
 		int max = grayValues.get(0);
@@ -91,13 +101,11 @@ public class ImageSplitor {
 		}
 		
 		double threshold = (double)max * 0.995;
-		System.out.println(threshold);
 		
 		for(int i = 0 ; i < grayValues.size() ; ++i) {
 			if(i != 0 && i != grayValues.size()-1) {
 				if(grayValues.get(i) >= threshold && grayValues.get(i - 1) < threshold && grayValues.get(i + 1) < threshold
 						&& (grayValues.get(i - 2) < threshold || grayValues.get(i + 2) < threshold)) {
-					System.out.println(i);
 					grayValues.remove((int)i);
 					grayValues.add((int)i, (int)threshold - 1);
 				}
